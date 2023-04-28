@@ -1,1 +1,38 @@
-HI
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  </head>
+  <body>
+    <div>
+      <label for="url-input">Enter video URL:</label>
+      <input type="text" id="url-input" value="https://hostengine.live/live/wrecks82/habsiptv82/231004.m3u8">
+      <button onclick="loadVideo()">Load</button>
+    </div>
+    <hr>
+    <video id="video" controls></video>
+    <script>
+      var video = document.getElementById('video');
+      var hls = new Hls();
+
+      function loadVideo() {
+        var urlInput = document.getElementById('url-input');
+        var videoUrl = urlInput.value;
+        hls.loadSource(videoUrl);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          video.play();
+        });
+      }
+
+      // Check if URL parameter exists and use it to load the video
+      var urlParams = new URLSearchParams(window.location.search);
+      var videoUrlParam = urlParams.get('url');
+      if (videoUrlParam) {
+        var urlInput = document.getElementById('url-input');
+        urlInput.value = videoUrlParam;
+        loadVideo();
+      }
+    </script>
+  </body>
+</html>
+
